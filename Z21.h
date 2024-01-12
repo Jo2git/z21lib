@@ -9,7 +9,7 @@
 #define Z21_DEFAULT_ADDR "192.168.0.111"
 
 // Lebenszeichen (alle ... Millisekunden Zentrale adressieren, um Verbindung aufrechtzuerhalten
-#define Z21_HEARTBEAT 20000
+#define Z21_HEARTBEAT 30000
 
 #define yetUnknown "(noch nicht ausgelesen)" // bestimmte Zustände
 
@@ -79,6 +79,9 @@ class Z21 {
 	// Gleisspannung ein/aus
 	static void LAN_X_SET_TRACK_POWER(boolean on);
 
+	// Not-Halt
+	static void LAN_X_SET_STOP() ;
+
 	// Zubehör schalten
 	static void LAN_X_SET_TURNOUT(int addr, bool plus);
 	
@@ -86,11 +89,10 @@ class Z21 {
 	static void LAN_X_GET_TURNOUT_INFO(int addr);
 
 	// Lok mit Adresse <adr> fahren in Richtung <dir> und mit Geschwindigkeit <speed>
-	// numFst = 14/28/128
-	static void LAN_X_SET_LOCO_DRIVE(int addr, int numFst, Direction dir, int speed);
+	static void LAN_X_SET_LOCO_DRIVE(int addr, Direction dir, int speed);
 	
-	// Loknothalt
-	static void locoStop(int addr, int numFst, Direction dir);
+	
+	static void locoStop(int addr, Direction dir);
 	
 	// Lokfunktion setzen
 	static void LAN_X_SET_LOCO_FUNCTION(int addr, int func, bool plus);
@@ -174,7 +176,7 @@ class Z21 {
 		static BoolState shortCircuitState;
 		static void setShortCircuitState(BoolState shortCircuitState);
 
-		static void locoDrive(int addr, int numFst, Direction dir, int speed);
+		static void locoDrive(int addr, Direction dir, int speed);
 
 		static void sendCommand(byte bytes[], int len, bool addXOR);
 		static void insertChecksum(byte bytes[], int len); 
